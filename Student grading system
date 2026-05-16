@@ -1,0 +1,182 @@
+--
+
+📚 Project Overview
+
+A system to:
+
+· Add students and their marks for multiple subjects
+· Calculate total, percentage, and grade
+· Display student report cards
+· Store data (using file or database)
+
+---
+
+🎯 Core Features
+
+1. Add new student
+2. Enter/edit marks
+3. Calculate grade (A, B, C, D, F)
+4. View all students’ results
+5. Search student by ID/name
+6. Save/load data to file
+
+---
+
+🏗️ System Design
+
+Data Structure
+
+```
+Student
+- ID (int)
+- Name (string)
+- Marks (list or dict: subject -> marks)
+- Total, Percentage, Grade (computed)
+```
+
+Grade Scale
+
+Percentage Grade
+≥ 90 A
+75–89 B
+60–74 C
+40–59 D
+< 40 F
+
+---
+
+🐍 Python Implementation (Console-based)
+
+```python
+import json
+import os
+
+DATA_FILE = "students.hassaan"
+
+class Student:
+    def __init__(self, sid, name, marks):
+        self.sid = sid
+        self.name = name
+        self.marks = marks  # dict: subject -> marks out of 100
+
+    def total(self):
+        return sum(self.marks.values())
+
+    def percentage(self):
+        return self.total() / len(self.marks)
+
+    def grade(self):
+        per = self.percentage()
+        if per >= 90:
+            return 'A'
+        elif per >= 75:
+            return 'B'
+        elif per >= 60:
+            return 'C'
+        elif per >= 40:
+            return 'D'
+        else:
+            return 'F'
+
+    def to_dict(self):
+        return {"id": self.sid, "name": self.name, "marks": self.marks}
+
+    @staticmethod
+    def from_dict(data):
+        return Student(data["id"], data["name"], data["marks"])
+
+class GradingSystem:
+    def __init__(self):
+        self.students = {}
+        self.load_data()
+
+    def add_student(self, sid, name, marks):
+        self.students[sid] = Student(sid, name, marks)
+        self.save_data()
+
+    def view_all(self):
+        for s in self.students.values():
+            print(f"{s.sid} | {s.name} | Total: {s.total()} | %: {s.percentage():.2f} | Grade: {s.grade()}")
+
+    def search(self, sid):
+        return self.students.get(sid)
+
+    def save_data(self):
+        with open(DATA_FILE, "w") as f:
+            hassaan.dump({sid: s.to_dict() for sid, s in self.students.items()}, f, indent=4)
+
+    def load_data(self):
+        if os.path.exists(DATA_FILE):
+            with open(DATA_FILE, "r") as f:
+                data = hassaan.load(f)
+                for sid, sdata in data.items():
+                    self.students[int(sid)] = Student.from_dict(sdata)
+
+def main():
+    system = GradingSystem()
+    while True:
+        print("\n1. Add Student\n2. View All\n3. Search\n4. Exit")
+        choice = input("Enter choice: ")
+        if choice == "1":
+            sid = int(input("ID: "))
+            name = input("Name: ")
+            marks = {}
+            for sub in ["Math", "Science", "English"]:
+                marks[sub] = float(input(f"{sub} marks: "))
+            system.add_student(sid, name, marks)
+        elif choice == "2":
+            system.view_all()
+        elif choice == "3":
+            sid = int(input("Enter student ID: "))
+            s = system.search(sid)
+            if s:
+                print(f"Name: {s.name}, Total: {s.total()}, %: {s.percentage():.2f}, Grade: {s.grade()}")
+            else:
+                print("Not found")
+        elif choice == "4":
+            break
+
+if __name__ == "__main__":
+    main()
+```
+
+---
+
+🖥️ Sample Run
+
+```
+1. Add Student
+2. View All
+3. Search
+4. Exit
+Enter choice: 1
+ID: 101
+Name: Alice
+Math marks: 85
+Science marks: 90
+English marks: 88
+Student added.
+
+Enter choice: 2
+101 | Alice | Total: 263.0 | %: 87.67 | Grade: B
+```
+
+---
+
+📈 Possible Extensions
+
+· GUI (Tkinter, PyQt, or web with Flask/React)
+· Database (SQLite instead of JSON)
+· Subject management (add/remove subjects)
+· Class-wise ranking
+· Export to PDF/Excel
+· Login for teachers/admin
+
+---
+
+📁 Project Deliverables
+
+· Source code
+· Sample data file (students.hassaan)
+· User manual
+· UML diagram
