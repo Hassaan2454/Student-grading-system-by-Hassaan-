@@ -1,32 +1,4 @@
---
 
-📚 Project Overview
-
-A system to:
-
-· Add students and their marks for multiple subjects
-· Calculate total, percentage, and grade
-· Display student report cards
-· Store data (using file or database)
-
----
-
-🎯 Core Features
-
-1. Add new student
-2. Enter/edit marks
-3. Calculate grade (A, B, C, D, F)
-4. View all students’ results
-5. Search student by ID/name
-6. Save/load data to file
-
----
-
-🏗️ System Design
-
-Data Structure
-
-```
 Student
 - ID (int)
 - Name (string)
@@ -161,22 +133,4 @@ Enter choice: 2
 101 | Alice | Total: 263.0 | %: 87.67 | Grade: B
 ```
 
----
 
-📈 Possible Extensions
-
-· GUI (Tkinter, PyQt, or web with Flask/React)
-· Database (SQLite instead of JSON)
-· Subject management (add/remove subjects)
-· Class-wise ranking
-· Export to PDF/Excel
-· Login for teachers/admin
-
----
-
-📁 Project Deliverables
-
-· Source code
-· Sample data file (students.hassaan)
-· User manual
-· UML diagram
